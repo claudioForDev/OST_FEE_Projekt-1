@@ -1,4 +1,5 @@
 /* Fonts */
+
 @font-face {
   font-family: "SourceSansPro";
   src: url("../fonts/SourceSansPro-Light.otf") format("otf");
@@ -13,9 +14,13 @@
   font-style: normal;
 }
 
-/* Variables */
+/* ==================================================
+   Design Tokens
+   ================================================== */
+
 :root {
   /* Colors */
+
   --color-bg: #ffffff;
 
   --color-primary: #0a2463;
@@ -31,7 +36,22 @@
   --color-danger: #d8315b;
   --color-success: #26c485;
 
+  /* Font sizes */
+
+  --font-size-root-sm: 16px;
+  --font-size-root-md: 18px;
+  --font-size-root-lg: 20px;
+
+  --font-size-h1: 2rem;
+  --font-size-h2: 1.5rem;
+  --font-size-body: 1rem;
+
+  /* Line height base */
+
+  --line-height-base: 1.3;
+
   /* Spacings */
+
   --space-xs: 0.25rem;
   --space-sm: 0.5rem;
   --space-md: 1rem;
@@ -39,17 +59,25 @@
   --space-xl: 2rem;
 
   /* Radius */
+
   --radius-sm: 0.25rem;
   --radius-md: 0.4rem;
   --radius-lg: 0.8rem;
 
   /* Border */
-  --border-default: 2px solid var(--color-border);
+
+  --border-width-default: 2px;
+  --border-default: var(--border-width-default) solid var(--color-border);
 
   /* Transitions/Animations */
+
   --transition-default: 0.3s ease;
   --transition-fast: 0.15s ease;
 }
+
+/* ==================================================
+   Theme overrides
+   ================================================== */
 
 [data-theme="dark"] {
   --color-bg: #000000;
@@ -59,7 +87,10 @@
   --color-primary-light: #0a2463;
 }
 
-/* Reset */
+/* ==================================================
+   Reset & Globals
+   ================================================== */
+
 * {
   box-sizing: border-box;
   margin: 0;
@@ -67,34 +98,38 @@
 }
 
 /* Root */
+
 html {
   scroll-behavior: smooth;
-  font-size: 16px;
+  font-size: var(--font-size-root-sm);
 }
 
 /* Responsiveness */
+
 @media screen and (min-width: 800px) {
   html {
-    font-size: 18px;
+    font-size: var(--font-size-root-md);
   }
 }
 
 @media screen and (min-width: 1200px) {
   html {
-    font-size: 20px;
+    font-size: var(--font-size-root-lg);
   }
 }
 
 /* body global */
+
 body {
   font-family: "SourceSansPro", system-ui, sans-serif;
   font-weight: 300;
-  line-height: 1.3;
+  line-height: var(--line-height-base);
   background-color: var(--color-bg);
   color: var(--color-text);
 }
 
 /* Forms */
+
 button,
 input,
 textarea {
@@ -102,24 +137,30 @@ textarea {
 }
 
 /* List reset */
+
 ul,
 ol {
   list-style: none;
 }
 
 /* Links */
+
 a {
   color: inherit;
   text-decoration: none;
 }
 
 /* Accessibility */
+
 :focus-visible {
-  outline: 2px solid var(--color-primary);
-  outline-offset: 2px;
+  outline: var(--border-width-default) solid var(--color-primary);
+  outline-offset: var(--space-xs);
 }
 
-/* Typography */
+/* ==================================================
+   Typography
+   ================================================== */
+
 h1,
 h2,
 p {
@@ -127,15 +168,16 @@ p {
 }
 
 h1 {
-  font-size: 2rem;
+  font-size: var(--font-size-h1);
   margin-bottom: var(--space-md);
 }
 
 h2 {
-  font-size: 1.5rem;
+  font-size: var(--font-size-h2);
   margin-bottom: var(--space-md);
 }
 
 p {
-  font-size: 1rem;
+  font-size: var(--font-size-body);
 }
+
