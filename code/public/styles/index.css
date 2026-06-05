@@ -1,3 +1,141 @@
+/* Fonts */
+@font-face {
+  font-family: "SourceSansPro";
+  src: url("../fonts/SourceSansPro-Light.otf") format("otf");
+  font-weight: 300;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "SourceSansPro";
+  src: url("../fonts/SourceSansPro-Bold.otf") format("otf");
+  font-weight: 700;
+  font-style: normal;
+}
+
+/* Variables */
+:root {
+  /* Colors */
+  --color-bg: #ffffff;
+
+  --color-primary: #0a2463;
+  --color-primary-hover: #0f3795;
+  --color-primary-active: #3e92cc;
+  --color-primary-light: #a2cae6;
+
+  --color-text: #000000;
+  --color-text-muted: #aaaaaa;
+
+  --color-border: #a1a1a1;
+
+  --color-danger: #d8315b;
+  --color-success: #26c485;
+
+  /* Spacings */
+  --space-xs: 0.25rem;
+  --space-sm: 0.5rem;
+  --space-md: 1rem;
+  --space-lg: 1.5rem;
+  --space-xl: 2rem;
+
+  /* Radius */
+  --radius-sm: 0.25rem;
+  --radius-md: 0.4rem;
+  --radius-lg: 0.8rem;
+
+  /* Border */
+  --border-default: 2px solid var(--color-border);
+
+  /* Transitions/Animations */
+  --transition-default: 0.3s ease;
+  --transition-fast: 0.15s ease;
+}
+
+[data-theme="dark"] {
+  --color-bg: #000000;
+  --color-text: #c6c6c6;
+  --color-border: #555555;
+  --color-text-muted: #6f6f6f;
+  --color-primary-light: #0a2463;
+}
+
+/* Reset */
 * {
-    box-sizing: border-box;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* Root */
+html {
+  scroll-behavior: smooth;
+  font-size: 16px;
+}
+
+/* Responsiveness */
+@media screen and (min-width: 800px) {
+  html {
+    font-size: 18px;
+  }
+}
+
+@media screen and (min-width: 1200px) {
+  html {
+    font-size: 20px;
+  }
+}
+
+/* body global */
+body {
+  font-family: "SourceSansPro", system-ui, sans-serif;
+  font-weight: 300;
+  line-height: 1.3;
+  background-color: var(--color-bg);
+  color: var(--color-text);
+}
+
+/* Forms */
+button,
+input,
+textarea {
+  font: inherit;
+}
+
+/* List reset */
+ul,
+ol {
+  list-style: none;
+}
+
+/* Links */
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+/* Accessibility */
+:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+/* Typography */
+h1,
+h2,
+p {
+  font-family: "IBM-Semibold", system-ui, sans-serif;
+}
+
+h1 {
+  font-size: 2rem;
+  margin-bottom: var(--space-md);
+}
+
+h2 {
+  font-size: 1.5rem;
+  margin-bottom: var(--space-md);
+}
+
+p {
+  font-size: 1rem;
 }

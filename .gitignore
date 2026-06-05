@@ -1,4 +1,5 @@
 node_modules
+styleguide.html
 
 # Environment files
 .env
