@@ -1,1 +1,3 @@
-console.log("Hello World");
+import { initNotesController } from "./controllers/notesController.js";
+
+initNotesController();
