@@ -1,4 +1,4 @@
-export function renderNotes(notes) {
+export function renderNotes(notes, { onToggleCompleted }) {
   const container = document.querySelector(".notes-list");
 
   if (!container) {
@@ -8,12 +8,12 @@ export function renderNotes(notes) {
   container.innerHTML = "";
 
   notes.forEach((note) => {
-    const noteElement = createNoteElement(note);
+    const noteElement = createNoteElement(note, onToggleCompleted);
     container.appendChild(noteElement);
   });
 }
 
-function createNoteElement(note) {
+function createNoteElement(note, onToggleCompleted) {
   const article = document.createElement("article");
   article.className = `note-card${note.completed ? " note-card--completed" : ""}`;
 
@@ -40,6 +40,10 @@ function createNoteElement(note) {
   const toggleButton = document.createElement("button");
   toggleButton.className = "btn btn--primary";
   toggleButton.textContent = note.completed ? "Wieder öffnen" : "Abschliessen";
+
+  toggleButton.addEventListener("click", () => {
+    onToggleCompleted(note.id);
+  });
 
   footer.appendChild(editButton);
   footer.appendChild(toggleButton);

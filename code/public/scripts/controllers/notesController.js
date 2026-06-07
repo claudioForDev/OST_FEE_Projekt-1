@@ -1,15 +1,60 @@
 import { getNotes } from "../services/notesService.js";
 import { renderNotes } from "../views/notesView.js";
 
+/* State */
+
 let notes = [];
+let currentFilter = "all";
+let currentSort = null;
+
+/* Public API */
 
 export function initNotesController() {
   notes = getNotes();
 
-  renderNotes(notes);
+  render();
 
   setupFilterControls();
   setupSortControls();
+}
+
+/* Rendering */
+
+function render() {
+  let visibleNotes = notes;
+
+  if (currentFilter === "open") {
+    visibleNotes = notes.filter((note) => !note.completed);
+  }
+
+  if (currentFilter === "completed") {
+    visibleNotes = notes.filter((note) => note.completed);
+  }
+
+  if (currentSort === "newest") {
+    visibleNotes = [...visibleNotes].sort((a, b) => b.createdAt - a.createdAt);
+  }
+
+  if (currentSort === "oldest") {
+    visibleNotes = [...visibleNotes].sort((a, b) => a.createdAt - b.createdAt);
+  }
+
+  renderNotes(visibleNotes, {
+    onToggleCompleted: handleToggleCompleted,
+  });
+}
+
+/* Event Handlers */
+
+function handleToggleCompleted(noteId) {
+  const note = notes.find((n) => n.id === noteId);
+
+  if (!note) {
+    return;
+  }
+
+  note.completed = !note.completed;
+  render();
 }
 
 /* Filter */
@@ -19,19 +64,8 @@ function setupFilterControls() {
 
   filterButtons.forEach((button) => {
     button.addEventListener("click", () => {
-      const filter = button.dataset.filter;
-
-      let filteredNotes = notes;
-
-      if (filter === "open") {
-        filteredNotes = notes.filter((note) => !note.completed);
-      }
-
-      if (filter === "completed") {
-        filteredNotes = notes.filter((note) => note.completed);
-      }
-
-      renderNotes(filteredNotes);
+      currentFilter = button.dataset.filter;
+      render();
     });
   });
 }
@@ -43,19 +77,8 @@ function setupSortControls() {
 
   sortButtons.forEach((button) => {
     button.addEventListener("click", () => {
-      const sortType = button.dataset.sort;
-
-      let sortedNotes = [...notes];
-
-      if (sortType === "newest") {
-        sortedNotes.sort((a, b) => b.createdAt - a.createdAt);
-      }
-
-      if (sortType === "oldest") {
-        sortedNotes.sort((a, b) => a.createdAt - b.createdAt);
-      }
-
-      renderNotes(sortedNotes);
+      currentSort = button.dataset.sort;
+      render();
     });
   });
 }
