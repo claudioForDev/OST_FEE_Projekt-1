@@ -40,40 +40,58 @@
       <button class="btn btn--primary">Notiz speichern</button>
     </section>
 
-<section>
-  <h2>Meine Notizen</h2>
+    <section>
+      <h2>Meine Notizen</h2>
 
-  <div class="notes-list">
-    <article class="note-card">
-      <header class="note-card__header">
-        <h3 class="note-card__title">Einkaufsliste</h3>
-      </header>
+      <div class="notes-controls">
+        <div class="notes-controls__group">
+          <button class="btn btn--secondary" data-filter="all">Alle</button>
+          <button class="btn btn--secondary" data-filter="open">Offen</button>
+          <button class="btn btn--secondary" data-filter="completed">
+            Abgeschlossen
+          </button>
+        </div>
 
-      <p class="note-card__content">
-        Milch, Brot, Kaffee
-        <a href="https://google.com" target="_blank">Google</a>
-      </p>
+        <div class="notes-controls__group">
+          <button class="btn btn--secondary" data-sort="newest">
+            Neueste zuerst
+          </button>
+          <button class="btn btn--secondary" data-sort="oldest">
+            Älteste zuerst
+          </button>
+        </div>
+      </div>
 
-      <footer class="note-card__footer">
-        <button class="btn btn--secondary">Bearbeiten</button>
-        <button class="btn btn--primary">Abschliessen</button>
-      </footer>
-    </article>
+      <div class="notes-list">
+        <!-- note-card Elemente -->
+      </div>
+    </section>
 
-    <article class="note-card note-card--completed">
-      <header class="note-card__header">
-        <h3 class="note-card__title">Termin</h3>
-      </header>
+    <div class="notes-list">
+      <article class="note-card">
+        <header class="note-card__header">
+          <h3 class="note-card__title">Einkaufsliste</h3>
+        </header>
 
-      <p class="note-card__content">
-        Arzttermin um 14:00 Uhr
-      </p>
+        <p class="note-card__content">Milch, Brot, Kaffee</p>
 
-      <footer class="note-card__footer">
-        <button class="btn btn--secondary">Bearbeiten</button>
-      </footer>
-    </article>
-  </div>
-</section>
+        <footer class="note-card__footer">
+          <button class="btn btn--secondary">Bearbeiten</button>
+          <button class="btn btn--primary">Abschliessen</button>
+        </footer>
+      </article>
+
+      <article class="note-card note-card--completed">
+        <header class="note-card__header">
+          <h3 class="note-card__title">Termin</h3>
+        </header>
+
+        <p class="note-card__content">Arzttermin um 14:00 Uhr</p>
+
+        <footer class="note-card__footer">
+          <button class="btn btn--secondary">Bearbeiten</button>
+        </footer>
+      </article>
+    </div>
   </body>
 </html>

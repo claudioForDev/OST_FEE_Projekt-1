@@ -192,7 +192,13 @@ p {
   align-items: center;
   justify-content: center;
 
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
+  font-family:
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    Arial,
+    sans-serif;
   font-size: var(--font-size-body);
   font-weight: 700;
 
@@ -242,7 +248,7 @@ p {
   background-color: var(--color-primary-active);
   color: var(--color-bg);
   border-color: var(--color-primary-active);
-} 
+}
 
 /* ==================================================
    Form Components – Input / Textarea
@@ -265,7 +271,13 @@ p {
 
 .form-input,
 .form-textarea {
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
+  font-family:
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    Arial,
+    sans-serif;
   font-size: var(--font-size-body);
   line-height: var(--line-height-base);
 
@@ -369,6 +381,7 @@ p {
 }
 
 /* Responsive */
+
 @media (min-width: 800px) {
   .notes-list {
     grid-template-columns: repeat(2, 1fr);
@@ -379,4 +392,28 @@ p {
   .notes-list {
     grid-template-columns: repeat(3, 1fr);
   }
+}
+
+/* ==================================================
+   Components – Notes Controls
+   ================================================== */
+
+.notes-controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-sm);
+  margin-bottom: var(--space-md);
+}
+
+/* Control group */
+
+.notes-controls__group {
+  display: flex;
+  gap: var(--space-xs);
+}
+
+/* Control button (reuse button styles) */
+
+.notes-controls .btn {
+  font-weight: 400;
 }
