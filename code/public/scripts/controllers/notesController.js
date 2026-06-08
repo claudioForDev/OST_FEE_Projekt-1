@@ -1,5 +1,6 @@
-import { getNotes } from "../services/notesService.js";
+import { getNotes, addNote } from "../services/notesService.js";
 import { renderNotes } from "../views/notesView.js";
+import { Note } from "../models/note.js";
 
 /* State */
 
@@ -14,6 +15,7 @@ export function initNotesController() {
 
   render();
 
+  setupCreateNoteForm();
   setupFilterControls();
   setupSortControls();
 }
@@ -55,6 +57,40 @@ function handleToggleCompleted(noteId) {
 
   note.completed = !note.completed;
   render();
+}
+
+function setupCreateNoteForm() {
+  const form = document.querySelector("#note-form");
+
+  if (!form) {
+    return;
+  }
+
+  form.addEventListener("submit", (event) => {
+    event.preventDefault();
+
+    const titleInput = form.querySelector("#title");
+    const contentInput = form.querySelector("#content");
+
+    const title = titleInput.value.trim();
+    const content = contentInput.value.trim();
+
+    if (!title) {
+      return;
+    }
+
+    const newNote = new Note({
+      id: Date.now(),
+      title,
+      content,
+    });
+
+    addNote(newNote);
+    notes = getNotes();
+
+    form.reset();
+    render();
+  });
 }
 
 /* Filter */

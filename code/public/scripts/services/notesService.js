@@ -3,13 +3,12 @@ import { Note } from "../models/note.js";
 const notes = [
   new Note({
     id: 1,
-    title: "Einkaufsliste aus notesService.js",
+    title: "Einkaufsliste",
     content: "Milch, Brot, Kaffee",
-    completed: false,
   }),
   new Note({
     id: 2,
-    title: "Termin aus notesService.js",
+    title: "Termin",
     content: "Arzttermin um 14:00 Uhr",
     completed: true,
   }),
@@ -17,4 +16,8 @@ const notes = [
 
 export function getNotes() {
   return notes;
+}
+
+export function addNote(note) {
+  notes.push(note);
 }

@@ -18,26 +18,29 @@
     <section>
       <h2>Neue Notiz</h2>
 
-      <div class="form-field">
-        <label for="title" class="form-label">Titel</label>
-        <input
-          id="title"
-          type="text"
-          class="form-input"
-          placeholder="Titel der Notiz"
-        />
-      </div>
+      <form id="note-form">
+        <div class="form-field">
+          <label for="title" class="form-label">Titel</label>
+          <input
+            id="title"
+            type="text"
+            class="form-input"
+            placeholder="Titel der Notiz"
+            required
+          />
+        </div>
 
-      <div class="form-field">
-        <label for="content" class="form-label">Inhalt</label>
-        <textarea
-          id="content"
-          class="form-textarea"
-          placeholder="Notiz erfassen…"
-        ></textarea>
-      </div>
+        <div class="form-field">
+          <label for="content" class="form-label">Inhalt</label>
+          <textarea
+            id="content"
+            class="form-textarea"
+            placeholder="Notiz erfassen…"
+          ></textarea>
+        </div>
 
-      <button class="btn btn--primary">Notiz speichern</button>
+        <button class="btn btn--primary" type="submit">Notiz speichern</button>
+      </form>
     </section>
 
     <section>
