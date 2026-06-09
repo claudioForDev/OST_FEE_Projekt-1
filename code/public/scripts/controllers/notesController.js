@@ -1,4 +1,4 @@
-import { getNotes, addNote } from "../services/notesService.js";
+import { getNotes, addNote, updateNotes } from "../services/notesService.js";
 import { renderNotes } from "../views/notesView.js";
 import { Note } from "../models/note.js";
 
@@ -56,6 +56,7 @@ function handleToggleCompleted(noteId) {
   }
 
   note.completed = !note.completed;
+  updateNotes(notes);
   render();
 }
 
