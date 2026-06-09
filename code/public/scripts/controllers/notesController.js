@@ -7,6 +7,7 @@ import { Note } from "../models/note.js";
 let notes = [];
 let currentFilter = "all";
 let currentSort = null;
+let noteBeingEdited = null;
 
 /* Public API */
 
@@ -43,6 +44,7 @@ function render() {
 
   renderNotes(visibleNotes, {
     onToggleCompleted: handleToggleCompleted,
+    onEditNote: handleEditNote,
   });
 }
 
@@ -60,6 +62,38 @@ function handleToggleCompleted(noteId) {
   render();
 }
 
+function handleEditNote(noteId) {
+  const note = notes.find((n) => n.id === noteId);
+
+  if (!note) {
+    return;
+  }
+
+  noteBeingEdited = note;
+  fillFormForEdit(note);
+}
+
+/* Form helpers */
+
+function fillFormForEdit(note) {
+  const titleInput = document.querySelector("#title");
+  const contentInput = document.querySelector("#content");
+  const submitButton = document.querySelector(
+    "#note-form button[type='submit']"
+  );
+
+  titleInput.value = note.title;
+  contentInput.value = note.content;
+  submitButton.textContent = "Änderungen speichern";
+}
+
+function resetFormState() {
+  const submitButton = document.querySelector(
+    "#note-form button[type='submit']"
+  );
+  submitButton.textContent = "Notiz speichern";
+}
+
 function setupCreateNoteForm() {
   const form = document.querySelector("#note-form");
 
@@ -67,11 +101,11 @@ function setupCreateNoteForm() {
     return;
   }
 
+  const titleInput = form.querySelector("#title");
+  const contentInput = form.querySelector("#content");
+
   form.addEventListener("submit", (event) => {
     event.preventDefault();
-
-    const titleInput = form.querySelector("#title");
-    const contentInput = form.querySelector("#content");
 
     const title = titleInput.value.trim();
     const content = contentInput.value.trim();
@@ -80,16 +114,27 @@ function setupCreateNoteForm() {
       return;
     }
 
-    const newNote = new Note({
-      id: Date.now(),
-      title,
-      content,
-    });
+    if (noteBeingEdited) {
+      // EDIT
+      noteBeingEdited.title = title;
+      noteBeingEdited.content = content;
+      updateNotes(notes);
+      noteBeingEdited = null;
+    } else {
+      // CREATE
+      const newNote = new Note({
+        id: Date.now(),
+        title,
+        content,
+      });
 
-    addNote(newNote);
-    notes = getNotes();
+      addNote(newNote);
+      notes = getNotes();
+    }
 
     form.reset();
+    noteBeingEdited = null;
+    resetFormState();
     render();
   });
 }

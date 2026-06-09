@@ -1,4 +1,4 @@
-export function renderNotes(notes, { onToggleCompleted }) {
+export function renderNotes(notes, { onToggleCompleted, onEditNote }) {
   const container = document.querySelector(".notes-list");
 
   if (!container) {
@@ -8,12 +8,12 @@ export function renderNotes(notes, { onToggleCompleted }) {
   container.innerHTML = "";
 
   notes.forEach((note) => {
-    const noteElement = createNoteElement(note, onToggleCompleted);
+    const noteElement = createNoteElement(note, onToggleCompleted, onEditNote);
     container.appendChild(noteElement);
   });
 }
 
-function createNoteElement(note, onToggleCompleted) {
+function createNoteElement(note, onToggleCompleted, onEditNote) {
   const article = document.createElement("article");
   article.className = `note-card${note.completed ? " note-card--completed" : ""}`;
 
@@ -36,6 +36,10 @@ function createNoteElement(note, onToggleCompleted) {
   const editButton = document.createElement("button");
   editButton.className = "btn btn--secondary";
   editButton.textContent = "Bearbeiten";
+
+  editButton.addEventListener("click", () => {
+    onEditNote(note.id);
+  });
 
   const toggleButton = document.createElement("button");
   toggleButton.className = "btn btn--primary";
