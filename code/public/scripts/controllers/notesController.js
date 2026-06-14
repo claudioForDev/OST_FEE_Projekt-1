@@ -6,19 +6,21 @@ import { Note } from "../models/note.js";
 
 let notes = [];
 let currentFilter = "all";
-let currentSort = null;
+let currentSort = "dueDate";
 let noteBeingEdited = null;
+let sortDirection = "desc";
 
 /* Public API */
 
 export function initNotesController() {
   notes = getNotes();
 
-  render();
-
   setupCreateNoteForm();
   setupFilterControls();
   setupSortControls();
+  updateSortButtonsUI();
+
+  render();
 }
 
 /* Rendering */
@@ -34,12 +36,39 @@ function render() {
     visibleNotes = notes.filter((note) => note.completed);
   }
 
-  if (currentSort === "newest") {
-    visibleNotes = [...visibleNotes].sort((a, b) => b.createdAt - a.createdAt);
+  if (currentSort === "name") {
+    visibleNotes = [...visibleNotes].sort((a, b) =>
+      sortDirection === "desc"
+        ? a.title.localeCompare(b.title)
+        : b.title.localeCompare(a.title)
+    );
   }
 
-  if (currentSort === "oldest") {
-    visibleNotes = [...visibleNotes].sort((a, b) => a.createdAt - b.createdAt);
+  if (currentSort === "dueDate") {
+    visibleNotes = [...visibleNotes].sort((a, b) => {
+      if (!a.dueDate) return 1;
+      if (!b.dueDate) return -1;
+
+      return sortDirection === "desc"
+        ? new Date(a.dueDate) - new Date(b.dueDate)
+        : new Date(b.dueDate) - new Date(a.dueDate);
+    });
+  }
+
+  if (currentSort === "createdAt") {
+    visibleNotes = [...visibleNotes].sort((a, b) =>
+      sortDirection === "desc"
+        ? a.createdAt - b.createdAt
+        : b.createdAt - a.createdAt
+    );
+  }
+
+  if (currentSort === "importance") {
+    visibleNotes = [...visibleNotes].sort((a, b) =>
+      sortDirection === "desc"
+        ? a.importance - b.importance
+        : b.importance - a.importance
+    );
   }
 
   renderNotes(visibleNotes, {
@@ -174,8 +203,41 @@ function setupSortControls() {
 
   sortButtons.forEach((button) => {
     button.addEventListener("click", () => {
-      currentSort = button.dataset.sort;
+      const newSort = button.dataset.sort;
+
+      if (currentSort === newSort) {
+        sortDirection = sortDirection === "desc" ? "asc" : "desc";
+      } else {
+        currentSort = newSort;
+        sortDirection = "desc";
+      }
+
+      updateSortButtonsUI();
       render();
     });
+  });
+}
+
+/* Sorting UI */
+
+function updateSortButtonsUI() {
+  const sortButtons = document.querySelectorAll("[data-sort]");
+
+  sortButtons.forEach((button) => {
+    const sortType = button.dataset.sort;
+
+    let baseText = "";
+
+    if (sortType === "name") baseText = "Name";
+    if (sortType === "dueDate") baseText = "Fälligkeitsdatum";
+    if (sortType === "createdAt") baseText = "Erstellungsdatum";
+    if (sortType === "importance") baseText = "Wichtigkeit";
+
+    if (currentSort === sortType) {
+      const arrow = sortDirection === "asc" ? " ↑" : " ↓";
+      button.textContent = baseText + arrow;
+    } else {
+      button.textContent = baseText;
+    }
   });
 }
