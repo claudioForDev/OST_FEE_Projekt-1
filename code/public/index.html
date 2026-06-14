@@ -35,8 +35,24 @@
           <textarea
             id="content"
             class="form-textarea"
-            placeholder="Notiz erfassen…"
+            placeholder="Notiz hier erfassen"
           ></textarea>
+        </div>
+
+        <div class="form-field">
+          <label for="importance" class="form-label">Wichtigkeit</label>
+          <select id="importance" class="form-input">
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3" selected>3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+          </select>
+        </div>
+
+        <div class="form-field">
+          <label for="dueDate" class="form-label">Erledigungsdatum</label>
+          <input id="dueDate" type="date" class="form-input" />
         </div>
 
         <button class="btn btn--primary" type="submit">Notiz speichern</button>

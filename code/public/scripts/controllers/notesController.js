@@ -78,12 +78,18 @@ function handleEditNote(noteId) {
 function fillFormForEdit(note) {
   const titleInput = document.querySelector("#title");
   const contentInput = document.querySelector("#content");
+  const importanceInput = document.querySelector("#importance");
+  const dueDateInput = document.querySelector("#dueDate");
+
   const submitButton = document.querySelector(
     "#note-form button[type='submit']"
   );
 
   titleInput.value = note.title;
   contentInput.value = note.content;
+  importanceInput.value = note.importance;
+  dueDateInput.value = note.dueDate || "";
+
   submitButton.textContent = "Änderungen speichern";
 }
 
@@ -103,12 +109,16 @@ function setupCreateNoteForm() {
 
   const titleInput = form.querySelector("#title");
   const contentInput = form.querySelector("#content");
+  const importanceInput = form.querySelector("#importance");
+  const dueDateInput = form.querySelector("#dueDate");
 
   form.addEventListener("submit", (event) => {
     event.preventDefault();
 
     const title = titleInput.value.trim();
     const content = contentInput.value.trim();
+    const importance = Number(importanceInput.value);
+    const dueDate = dueDateInput.value || null;
 
     if (!title) {
       return;
@@ -118,6 +128,9 @@ function setupCreateNoteForm() {
       // EDIT
       noteBeingEdited.title = title;
       noteBeingEdited.content = content;
+      noteBeingEdited.importance = importance;
+      noteBeingEdited.dueDate = dueDate;
+
       updateNotes(notes);
       noteBeingEdited = null;
     } else {
@@ -126,6 +139,8 @@ function setupCreateNoteForm() {
         id: Date.now(),
         title,
         content,
+        importance,
+        dueDate,
       });
 
       addNote(newNote);

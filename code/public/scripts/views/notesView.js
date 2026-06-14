@@ -30,6 +30,20 @@ function createNoteElement(note, onToggleCompleted, onEditNote) {
   content.className = "note-card__content";
   content.textContent = note.content;
 
+  const meta = document.createElement("div");
+  meta.className = "note-card__meta";
+
+  const importance = document.createElement("p");
+  importance.textContent = `Wichtigkeit: ${note.importance}`;
+
+  const dueDate = document.createElement("p");
+  dueDate.textContent = note.dueDate
+    ? `Fällig bis: ${note.dueDate}`
+    : "Kein Fälligkeitsdatum";
+
+  meta.appendChild(importance);
+  meta.appendChild(dueDate);
+
   const footer = document.createElement("footer");
   footer.className = "note-card__footer";
 
@@ -54,6 +68,7 @@ function createNoteElement(note, onToggleCompleted, onEditNote) {
 
   article.appendChild(header);
   article.appendChild(content);
+  article.appendChild(meta);
   article.appendChild(footer);
 
   return article;

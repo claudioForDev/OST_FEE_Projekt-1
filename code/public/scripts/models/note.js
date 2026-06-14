@@ -5,11 +5,15 @@ export class Note {
     content,
     completed = false,
     createdAt = Date.now(),
+    importance = 3,
+    dueDate = null,
   }) {
     this.id = id;
     this.title = title;
     this.content = content;
     this.completed = completed;
     this.createdAt = createdAt;
+    this.importance = importance;
+    this.dueDate = dueDate;
   }
 }
