@@ -15,7 +15,7 @@
   </head>
   <body>
     <h1>What's next?</h1>
-    <section>
+    <section id="note-form-section">
       <h2>Neue Notiz</h2>
 
       <form id="note-form">
@@ -55,11 +55,19 @@
           <input id="dueDate" type="date" class="form-input" />
         </div>
 
-        <button class="btn btn--primary" type="submit">Notiz speichern</button>
+        <button type="button" id="cancel-button" class="btn btn--secondary">
+          Zurück
+        </button>
+
+        <button type="submit" class="btn btn--primary">Notiz speichern</button>
       </form>
     </section>
 
-    <section>
+    <section id="notes-section">
+      <button id="new-note-button" class="btn btn--primary">
+        Neue Notiz erstellen
+      </button>
+
       <h2>Meine Notizen</h2>
 
       <div class="notes-controls">

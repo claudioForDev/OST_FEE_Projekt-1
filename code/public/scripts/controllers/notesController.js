@@ -100,6 +100,7 @@ function handleEditNote(noteId) {
 
   noteBeingEdited = note;
   fillFormForEdit(note);
+  showFormView();
 }
 
 /* Form helpers */
@@ -140,6 +141,22 @@ function setupCreateNoteForm() {
   const contentInput = form.querySelector("#content");
   const importanceInput = form.querySelector("#importance");
   const dueDateInput = form.querySelector("#dueDate");
+  const cancelButton = document.querySelector("#cancel-button");
+  const newNoteButton = document.querySelector("#new-note-button");
+
+  cancelButton.addEventListener("click", () => {
+    noteBeingEdited = null;
+    form.reset();
+    resetFormState();
+    showListView();
+  });
+
+  newNoteButton.addEventListener("click", () => {
+    noteBeingEdited = null;
+    form.reset();
+    resetFormState();
+    showFormView();
+  });
 
   form.addEventListener("submit", (event) => {
     event.preventDefault();
@@ -180,6 +197,7 @@ function setupCreateNoteForm() {
     noteBeingEdited = null;
     resetFormState();
     render();
+    showListView();
   });
 }
 
@@ -240,4 +258,16 @@ function updateSortButtonsUI() {
       button.textContent = baseText;
     }
   });
+}
+
+/* View Switching */
+
+function showListView() {
+  document.querySelector("#note-form-section").style.display = "none";
+  document.querySelector("#notes-section").style.display = "block";
+}
+
+function showFormView() {
+  document.querySelector("#note-form-section").style.display = "block";
+  document.querySelector("#notes-section").style.display = "none";
 }

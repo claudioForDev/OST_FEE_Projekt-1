@@ -380,6 +380,12 @@ p {
   gap: var(--space-md);
 }
 
+/* View switching */
+
+#note-form-section {
+  display: none;
+}
+
 /* Responsive */
 
 @media (min-width: 800px) {
