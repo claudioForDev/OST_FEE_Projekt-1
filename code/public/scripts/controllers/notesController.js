@@ -13,6 +13,8 @@ let sortDirection = "desc";
 /* Public API */
 
 export function initNotesController() {
+  setupInitialTheme();
+
   notes = getNotes();
 
   setupCreateNoteForm();
@@ -275,21 +277,39 @@ function showFormView() {
 
 /* Theme */
 
+function setupInitialTheme() {
+  const savedTheme = localStorage.getItem("theme");
+
+  const root = document.documentElement;
+  const button = document.querySelector("#theme-toggle");
+
+  if (savedTheme === "dark") {
+    root.setAttribute("data-theme", "dark");
+  }
+
+  if (button) {
+    button.textContent = savedTheme === "dark" ? "Light Mode" : "Dark Mode";
+  }
+}
+
 function setupThemeToggle() {
   const button = document.querySelector("#theme-toggle");
 
   if (!button) return;
 
+  const root = document.documentElement;
+
   button.addEventListener("click", () => {
-    const root = document.documentElement;
     const isDark = root.getAttribute("data-theme") === "dark";
 
     if (isDark) {
       root.removeAttribute("data-theme");
       button.textContent = "Dark Mode";
+      localStorage.setItem("theme", "light");
     } else {
       root.setAttribute("data-theme", "dark");
       button.textContent = "Light Mode";
+      localStorage.setItem("theme", "dark");
     }
   });
 }
