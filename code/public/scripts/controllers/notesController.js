@@ -19,6 +19,7 @@ export function initNotesController() {
   setupFilterControls();
   setupSortControls();
   updateSortButtonsUI();
+  setupThemeToggle();
 
   render();
 }
@@ -270,4 +271,25 @@ function showListView() {
 function showFormView() {
   document.querySelector("#note-form-section").style.display = "block";
   document.querySelector("#notes-section").style.display = "none";
+}
+
+/* Theme */
+
+function setupThemeToggle() {
+  const button = document.querySelector("#theme-toggle");
+
+  if (!button) return;
+
+  button.addEventListener("click", () => {
+    const root = document.documentElement;
+    const isDark = root.getAttribute("data-theme") === "dark";
+
+    if (isDark) {
+      root.removeAttribute("data-theme");
+      button.textContent = "Dark Mode";
+    } else {
+      root.setAttribute("data-theme", "dark");
+      button.textContent = "Light Mode";
+    }
+  });
 }

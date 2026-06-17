@@ -423,3 +423,15 @@ p {
 .notes-controls .btn {
   font-weight: 400;
 }
+
+/* ==================================================
+   Layout – Header
+   ================================================== */
+
+.app-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  margin-bottom: var(--space-lg);
+}
