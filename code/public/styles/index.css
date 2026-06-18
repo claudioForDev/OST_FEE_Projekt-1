@@ -21,21 +21,21 @@
 :root {
   /* Colors */
 
-  --color-bg: #f5f5f5;
-  --color-surface: #ffffff;
+  --color-bg: hsl(0, 0%, 90%);
+  --color-surface: hsl(0, 0%, 100%);
 
   --color-primary: hsl(222, 100%, 60%);
   --color-primary-hover: hsl(222, 100%, 70%);
-  --color-primary-active: #3e92cc;
-  --color-primary-light: #a2cae6;
+  --color-primary-active: hsl(205, 58%, 52%);
+  --color-primary-light: hsl(205, 58%, 77%);
 
-  --color-text: #000000;
-  --color-text-muted: #aaaaaa;
+  --color-text: hsl(0, 0%, 0%);
+  --color-text-muted: hsl(0, 0%, 67%);
 
-  --color-border: #a1a1a1;
+  --color-border: hsl(0, 0%, 63%);
 
-  --color-danger: #d8315b;
-  --color-success: #26c485;
+  --color-danger: hsl(345, 68%, 52%);
+  --color-success: hsl(156, 68%, 46%);
 
   /* Font sizes */
 
@@ -81,18 +81,18 @@
    ================================================== */
 
 [data-theme="dark"] {
-  --color-bg: #121212;
-  --color-surface: #292929;
+  --color-bg: hsl(0, 0%, 5%);
+  --color-surface: hsl(0, 0%, 18%);
 
-  --color-primary: #3e7bfa;
-  --color-primary-hover: #5a90ff;
-  --color-primary-active: #2f5fd4;
-  --color-primary-light: #1f3b80;
+  --color-primary: hsl(230, 80%, 50%);
+  --color-primary-hover: hsl(220, 100%, 60%);
+  --color-primary-active: hsl(223, 66%, 51%);
+  --color-primary-light: hsl(223, 61%, 31%);
 
-  --color-text: #e4e4e4;
-  --color-text-muted: #9a9a9a;
+  --color-text: hsl(0, 0%, 89%);
+  --color-text-muted: hsl(0, 0%, 60%);
 
-  --color-border: #3a3a3a;
+  --color-border: hsl(0, 0%, 23%);
 }
 
 /* ==================================================
