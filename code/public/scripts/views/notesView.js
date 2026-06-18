@@ -66,10 +66,15 @@ function createNoteElement(note, onToggleCompleted, onEditNote) {
   footer.appendChild(editButton);
   footer.appendChild(toggleButton);
 
+  const bottom = document.createElement("div");
+  bottom.className = "note-card__bottom";
+
+  bottom.appendChild(meta);
+  bottom.appendChild(footer);
+
   article.appendChild(header);
   article.appendChild(content);
-  article.appendChild(meta);
-  article.appendChild(footer);
+  article.appendChild(bottom);
 
   return article;
 }

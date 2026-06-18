@@ -345,6 +345,8 @@ p {
   flex-direction: column;
   gap: var(--space-sm);
 
+  height: 100%;
+
   padding: var(--space-md);
   border: var(--border-default);
   border-radius: var(--radius-md);
@@ -383,6 +385,13 @@ p {
   gap: var(--space-sm);
 }
 
+.note-card__bottom {
+  margin-top: auto;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+}
+
 /* Completed State */
 
 .note-card--completed {
@@ -400,6 +409,7 @@ p {
 .notes-list {
   display: grid;
   gap: var(--space-md);
+  align-items: stretch;
 }
 
 /* View switching */
