@@ -14,96 +14,103 @@
     <link rel="stylesheet" href="./styles/index.css" />
   </head>
   <body>
-    <header class="app-header">
-      <h1>What's next?</h1>
-
-      <button id="theme-toggle" class="btn btn--secondary">Dark Mode</button>
-    </header>
-
-    <section id="note-form-section">
-      <h2>Neue Notiz</h2>
-
-      <form id="note-form">
-        <div class="form-field">
-          <label for="title" class="form-label">Titel</label>
-          <input
-            id="title"
-            type="text"
-            class="form-input"
-            placeholder="Titel der Notiz"
-            required
-          />
-        </div>
-
-        <div class="form-field">
-          <label for="content" class="form-label">Inhalt</label>
-          <textarea
-            id="content"
-            class="form-textarea"
-            placeholder="Notiz hier erfassen"
-          ></textarea>
-        </div>
-
-        <div class="form-field">
-          <label for="importance" class="form-label">Wichtigkeit</label>
-          <select id="importance" class="form-input">
-            <option value="1">1</option>
-            <option value="2">2</option>
-            <option value="3" selected>3</option>
-            <option value="4">4</option>
-            <option value="5">5</option>
-          </select>
-        </div>
-
-        <div class="form-field">
-          <label for="dueDate" class="form-label">Erledigungsdatum</label>
-          <input id="dueDate" type="date" class="form-input" />
-        </div>
-
-        <button type="button" id="cancel-button" class="btn btn--secondary">
-          Zurück
+    <div class="container">
+      <header class="app-header">
+        <button id="new-note-button" class="btn btn--primary">
+          Neue Notiz erstellen
         </button>
 
-        <button type="submit" class="btn btn--primary">Notiz speichern</button>
-      </form>
-    </section>
+        <button id="theme-toggle" class="btn btn--secondary">Dark Mode</button>
+      </header>
 
-    <section id="notes-section">
-      <button id="new-note-button" class="btn btn--primary">
-        Neue Notiz erstellen
-      </button>
+      <section id="note-form-section">
+        <h2>Neue Notiz</h2>
 
-      <h2>Meine Notizen</h2>
+        <form id="note-form">
+          <div class="form-field">
+            <label for="title" class="form-label">Titel</label>
+            <input
+              id="title"
+              type="text"
+              class="form-input"
+              placeholder="Titel der Notiz"
+              required
+            />
+          </div>
 
-      <div class="notes-controls">
-        <div class="notes-controls__group">
-          <button class="btn btn--secondary" data-filter="all">Alle</button>
-          <button class="btn btn--secondary" data-filter="open">Offen</button>
-          <button class="btn btn--secondary" data-filter="completed">
-            Abgeschlossen
+          <div class="form-field">
+            <label for="content" class="form-label">Inhalt</label>
+            <textarea
+              id="content"
+              class="form-textarea"
+              placeholder="Notiz hier erfassen"
+            ></textarea>
+          </div>
+
+          <div class="form-field">
+            <label for="importance" class="form-label">Wichtigkeit</label>
+            <select id="importance" class="form-input">
+              <option value="1">1</option>
+              <option value="2">2</option>
+              <option value="3" selected>3</option>
+              <option value="4">4</option>
+              <option value="5">5</option>
+            </select>
+          </div>
+
+          <div class="form-field">
+            <label for="dueDate" class="form-label">Erledigungsdatum</label>
+            <input id="dueDate" type="date" class="form-input" />
+          </div>
+
+          <button type="button" id="cancel-button" class="btn btn--secondary">
+            Zurück
           </button>
+
+          <button type="submit" class="btn btn--primary">
+            Notiz speichern
+          </button>
+        </form>
+      </section>
+
+      <section id="notes-section">
+        <div class="notes-controls">
+          <div class="notes-controls__group">
+            <p class="notes-controls__label">Filtern</p>
+
+            <div class="notes-controls__buttons">
+              <button class="btn btn--secondary" data-filter="all">Alle</button>
+              <button class="btn btn--secondary" data-filter="open">
+                Offen
+              </button>
+              <button class="btn btn--secondary" data-filter="completed">
+                Abgeschlossen
+              </button>
+            </div>
+          </div>
+
+          <div class="notes-controls__group">
+            <p class="notes-controls__label">Sortieren</p>
+
+            <div class="notes-controls__buttons">
+              <button class="btn btn--secondary" data-sort="name">Name</button>
+              <button class="btn btn--secondary" data-sort="dueDate">
+                Fälligkeitsdatum
+              </button>
+              <button class="btn btn--secondary" data-sort="createdAt">
+                Erstellungsdatum
+              </button>
+              <button class="btn btn--secondary" data-sort="importance">
+                Wichtigkeit
+              </button>
+            </div>
+          </div>
         </div>
 
-        <div class="notes-controls__group">
-          <button class="btn btn--secondary" data-sort="name">Name</button>
-
-          <button class="btn btn--secondary" data-sort="dueDate">
-            Fälligkeitsdatum
-          </button>
-
-          <button class="btn btn--secondary" data-sort="createdAt">
-            Erstellungsdatum
-          </button>
-
-          <button class="btn btn--secondary" data-sort="importance">
-            Wichtigkeit
-          </button>
+        <div class="notes-list">
+          <!-- note-card Elemente -->
         </div>
-      </div>
-
-      <div class="notes-list">
-        <!-- note-card Elemente -->
-      </div>
-    </section>
+      </section>
+    </div>
   </body>
 </html>

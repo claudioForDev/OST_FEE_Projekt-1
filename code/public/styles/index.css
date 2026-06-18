@@ -39,9 +39,9 @@
 
   /* Font sizes */
 
-  --font-size-root-sm: 16px;
-  --font-size-root-md: 18px;
-  --font-size-root-lg: 20px;
+  --font-size-root-sm: 13px;
+  --font-size-root-md: 15px;
+  --font-size-root-lg: 17px;
 
   --font-size-h1: 2rem;
   --font-size-h2: 1.5rem;
@@ -49,7 +49,7 @@
 
   /* Line height base */
 
-  --line-height-base: 1.3;
+  --line-height-base: 1.5;
 
   /* Spacings */
 
@@ -136,6 +136,20 @@ body {
   color: var(--color-text);
 }
 
+/* Layout – Container */
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: var(--space-md);
+}
+
+/* Layout – Sections */
+
+section {
+  margin-bottom: var(--space-xl);
+}
+
 /* Forms */
 
 button,
@@ -210,7 +224,7 @@ p {
   font-size: var(--font-size-body);
   font-weight: 700;
 
-  padding: var(--space-sm) var(--space-md);
+  padding: var(--space-xs) var(--space-md);
   border-radius: var(--radius-md);
 
   border: var(--border-default);
@@ -414,6 +428,9 @@ p {
 
 .notes-controls {
   display: flex;
+  justify-content: space-between;
+  align-items: center;
+
   flex-wrap: wrap;
   gap: var(--space-sm);
   margin-bottom: var(--space-md);
@@ -423,7 +440,20 @@ p {
 
 .notes-controls__group {
   display: flex;
+  flex-direction: column;
   gap: var(--space-xs);
+}
+
+.notes-controls__label {
+  font-size: var(--font-size-body);
+  font-weight: 700;
+  color: var(--color-text);
+}
+
+.notes-controls__buttons {
+  display: flex;
+  gap: var(--space-xs);
+  flex-wrap: wrap;
 }
 
 /* Control button (reuse button styles) */
