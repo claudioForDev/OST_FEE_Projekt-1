@@ -7,7 +7,7 @@
     "type": "module",
     "main": "index.js",
     "scripts": {
-        "start": "node index.js",
+        "start": "node code/index.js",
         "start:watch": "node --watch index.js",
         "lint": "eslint \"**/*.js\" \"**/*.css\"",
         "format": "prettier --write \"**/*.{js,cjs,mjs,css,html,json,md}\"",
@@ -21,6 +21,7 @@
         "prettier": "3.8.2"
     },
     "dependencies": {
+        "dotenv": "^17.4.2",
         "express": "^5.2.1"
     }
 }
