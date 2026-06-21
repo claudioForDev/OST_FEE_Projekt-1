@@ -12,10 +12,10 @@ let sortDirection = "desc";
 
 /* Public API */
 
-export function initNotesController() {
+export async function initNotesController() {
   setupInitialTheme();
 
-  notes = getNotes();
+  notes = await getNotes();
 
   setupCreateNoteForm();
   setupFilterControls();
@@ -23,56 +23,60 @@ export function initNotesController() {
   updateSortButtonsUI();
   setupThemeToggle();
 
-  render();
+  await render();
 }
 
 /* Rendering */
 
-function render() {
-  let visibleNotes = notes;
+async function render() {
+  const visibleNotes = await getNotes(
+    currentFilter === "completed" ? true : currentFilter === "open" ? false : undefined,
+    currentSort,
+    sortDirection
+  );
 
-  if (currentFilter === "open") {
-    visibleNotes = notes.filter((note) => !note.completed);
-  }
+  // if (currentFilter === "open") {
+  //   visibleNotes = notes.filter((note) => !note.completed);
+  // }
 
-  if (currentFilter === "completed") {
-    visibleNotes = notes.filter((note) => note.completed);
-  }
+  // if (currentFilter === "completed") {
+  //   visibleNotes = notes.filter((note) => note.completed);
+  // }
 
-  if (currentSort === "name") {
-    visibleNotes = [...visibleNotes].sort((a, b) =>
-      sortDirection === "desc"
-        ? a.title.localeCompare(b.title)
-        : b.title.localeCompare(a.title)
-    );
-  }
+  // if (currentSort === "name") {
+  //   visibleNotes = [...visibleNotes].sort((a, b) =>
+  //     sortDirection === "desc"
+  //       ? a.title.localeCompare(b.title)
+  //       : b.title.localeCompare(a.title)
+  //   );
+  // }
 
-  if (currentSort === "dueDate") {
-    visibleNotes = [...visibleNotes].sort((a, b) => {
-      if (!a.dueDate) return 1;
-      if (!b.dueDate) return -1;
+  // if (currentSort === "dueDate") {
+  //   visibleNotes = [...visibleNotes].sort((a, b) => {
+  //     if (!a.dueDate) return 1;
+  //     if (!b.dueDate) return -1;
 
-      return sortDirection === "desc"
-        ? new Date(a.dueDate) - new Date(b.dueDate)
-        : new Date(b.dueDate) - new Date(a.dueDate);
-    });
-  }
+  //     return sortDirection === "desc"
+  //       ? new Date(a.dueDate) - new Date(b.dueDate)
+  //       : new Date(b.dueDate) - new Date(a.dueDate);
+  //   });
+  // }
 
-  if (currentSort === "createdAt") {
-    visibleNotes = [...visibleNotes].sort((a, b) =>
-      sortDirection === "desc"
-        ? a.createdAt - b.createdAt
-        : b.createdAt - a.createdAt
-    );
-  }
+  // if (currentSort === "createdAt") {
+  //   visibleNotes = [...visibleNotes].sort((a, b) =>
+  //     sortDirection === "desc"
+  //       ? a.createdAt - b.createdAt
+  //       : b.createdAt - a.createdAt
+  //   );
+  // }
 
-  if (currentSort === "importance") {
-    visibleNotes = [...visibleNotes].sort((a, b) =>
-      sortDirection === "desc"
-        ? a.importance - b.importance
-        : b.importance - a.importance
-    );
-  }
+  // if (currentSort === "importance") {
+  //   visibleNotes = [...visibleNotes].sort((a, b) =>
+  //     sortDirection === "desc"
+  //       ? a.importance - b.importance
+  //       : b.importance - a.importance
+  //   );
+  // }
 
   renderNotes(visibleNotes, {
     onToggleCompleted: handleToggleCompleted,
@@ -82,7 +86,7 @@ function render() {
 
 /* Event Handlers */
 
-function handleToggleCompleted(noteId) {
+async function handleToggleCompleted(noteId) {
   const note = notes.find((n) => n.id === noteId);
 
   if (!note) {
@@ -90,8 +94,8 @@ function handleToggleCompleted(noteId) {
   }
 
   note.completed = !note.completed;
-  updateNotes(notes);
-  render();
+  await updateNotes(note);
+  await render();
 }
 
 function handleEditNote(noteId) {
@@ -133,7 +137,7 @@ function resetFormState() {
   submitButton.textContent = "Notiz speichern";
 }
 
-function setupCreateNoteForm() {
+async function setupCreateNoteForm() {
   const form = document.querySelector("#note-form");
 
   if (!form) {
@@ -161,7 +165,7 @@ function setupCreateNoteForm() {
     showFormView();
   });
 
-  form.addEventListener("submit", (event) => {
+  form.addEventListener("submit", async (event) => {
     event.preventDefault();
 
     const title = titleInput.value.trim();
@@ -180,26 +184,27 @@ function setupCreateNoteForm() {
       noteBeingEdited.importance = importance;
       noteBeingEdited.dueDate = dueDate;
 
-      updateNotes(notes);
+      await updateNotes(noteBeingEdited);
       noteBeingEdited = null;
     } else {
       // CREATE
       const newNote = new Note({
-        id: Date.now(),
+        // id: Date.now(),
         title,
         content,
         importance,
         dueDate,
       });
 
-      addNote(newNote);
-      notes = getNotes();
+      await addNote(newNote);
+      const filterCompleted = currentFilter === "completed" ? true : currentFilter === "open" ? false : undefined;
+      notes = await getNotes(filterCompleted, currentSort, sortDirection);
     }
 
     form.reset();
     noteBeingEdited = null;
     resetFormState();
-    render();
+    await render();
     showListView();
   });
 }
@@ -210,9 +215,10 @@ function setupFilterControls() {
   const filterButtons = document.querySelectorAll("[data-filter]");
 
   filterButtons.forEach((button) => {
-    button.addEventListener("click", () => {
+    button.addEventListener("click", async () => {
+      // const newFilter = button.dataset.filter;
       currentFilter = button.dataset.filter;
-      render();
+      await render();
     });
   });
 }
@@ -223,7 +229,7 @@ function setupSortControls() {
   const sortButtons = document.querySelectorAll("[data-sort]");
 
   sortButtons.forEach((button) => {
-    button.addEventListener("click", () => {
+    button.addEventListener("click", async () => {
       const newSort = button.dataset.sort;
 
       if (currentSort === newSort) {
@@ -234,7 +240,7 @@ function setupSortControls() {
       }
 
       updateSortButtonsUI();
-      render();
+      await render();
     });
   });
 }
@@ -249,7 +255,7 @@ function updateSortButtonsUI() {
 
     let baseText = "";
 
-    if (sortType === "name") baseText = "Name";
+    if (sortType === "title") baseText = "Title";
     if (sortType === "dueDate") baseText = "Fälligkeitsdatum";
     if (sortType === "createdAt") baseText = "Erstellungsdatum";
     if (sortType === "importance") baseText = "Wichtigkeit";

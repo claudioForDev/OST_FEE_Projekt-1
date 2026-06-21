@@ -1,43 +1,55 @@
-import { Note } from "../models/note.js";
+export async function getNotes(isCompleted, sortBy, sortOrder) {
+  let query = [];
 
-const STORAGE_KEY = "notes";
-
-/* Load notes from localStorage */
-
-function loadNotes() {
-  const storedNotes = localStorage.getItem(STORAGE_KEY);
-
-  if (!storedNotes) {
-    return [];
+  if (isCompleted !== undefined) {
+    query.push(`isCompleted=${isCompleted}`);
+  }
+  if (sortBy) {
+    query.push(`sortBy=${sortBy}`);
+  }
+  if (sortOrder) {
+    query.push(`sortOrder=${sortOrder}`);
   }
 
-  const parsedNotes = JSON.parse(storedNotes);
+  const queryStr = query.length > 0 ? `?${query.join('&')}` : '';
 
-  return parsedNotes.map((noteData) => new Note(noteData));
+  const response = await http('GET', `/notes${queryStr}`);
+  return response;
 }
 
-/* Save notes to localStorage */
-
-function saveNotes(notes) {
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(notes));
+export async function addNote(note) {
+  const response = await http('POST', '/notes', note);
+  return response;
 }
 
-/* In-memory state */
-
-let notes = loadNotes();
-
-/* Public API */
-
-export function getNotes() {
-  return notes;
+export async function updateNotes(updateNote) {
+  const response = await http('PUT', `/notes/${updateNote._id}`, updateNote);
+  return response;
 }
 
-export function addNote(note) {
-  notes.push(note);
-  saveNotes(notes);
-}
 
-export function updateNotes(updatedNotes) {
-  notes = updatedNotes;
-  saveNotes(notes);
+async function http(method, path, data = null) {
+  const url = `http://127.0.0.1:3000${path}`;
+  const options = {
+    method,
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: data ? JSON.stringify(data) : null
+  };
+
+  try {
+    console.log(`SEND: ${method} / ${url} data: ${JSON.stringify(data)}`);
+    const response = await fetch(url, options);
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+
+    const jsonResponse = await response.json();
+    console.log(`RECEIVE: ${method} / ${url} data: ${JSON.stringify(jsonResponse)}...`); // Log only the first 100 characters of the response for brevity.
+    return jsonResponse;
+  } catch (error) {
+    console.error(`Error during HTTP request to ${url}:`, error);
+    throw error;
+  }
 }
