@@ -14,32 +14,31 @@ export class NoteController {
     });
   }
 
-  seed = async () => {
-    const notes = [
-      { title: "AAA", content: "BBB", isCompleted: false },
-      { title: "BBB", content: "DDD", isCompleted: true },
-      { title: "CCC", content: "AAA", isCompleted: undefined },
-      { title: "DDD", content: "CCC", isCompleted: null },
-    ];
+  // seed = async () => {
+  //   const notes = [
+  //     { title: "AAA", content: "BBB", isCompleted: false },
+  //     { title: "BBB", content: "DDD", isCompleted: true },
+  //     { title: "CCC", content: "AAA", isCompleted: undefined },
+  //     { title: "DDD", content: "CCC", isCompleted: null },
+  //   ];
 
-    for (const note of notes) {
-      await this.db.insertAsync(note);
-    }
-  };
+  //   for (const note of notes) {
+  //     await this.db.insertAsync(note);
+  //   }
+  // };
 
   // TODO: Add Filter and Sorting.
   getAllNotes = async (req, res) => {
     try {
       // Filter by request parameters if provided
       let filter = {};
-      const isCompleted =
-        req.query.isCompleted === "true"
+      const isCompleted = req.query.isCompleted === "true"
           ? true
           : req.query.isCompleted === "false"
             ? false
             : null;
       if (isCompleted !== null) {
-        filter = { isCompleted: isCompleted };
+        filter = { completed: isCompleted };
       }
 
       // Sort by request query parameters if provided, otherwise default to sorting by title
@@ -57,28 +56,26 @@ export class NoteController {
     }
   };
 
-  getNoteById = async (req, res) => {
-    try {
-      const noteId = req.params.id;
-      const note = await this.db.findOneAsync({ _id: noteId });
-      if (note) {
-        res.json(note);
-      } else {
-        res.status(404).json({ message: "Note not found" });
-      }
-    } catch (error) {
-      res
-        .status(500)
-        .json({ message: "Error retrieving note", error: error.message });
-    }
-  };
+  // getNoteById = async (req, res) => {
+  //   try {
+  //     const noteId = req.params.id;
+  //     const note = await this.db.findOneAsync({ _id: noteId });
+  //     if (note) {
+  //       res.json(note);
+  //     } else {
+  //       res.status(404).json({ message: "Note not found" });
+  //     }
+  //   } catch (error) {
+  //     res
+  //       .status(500)
+  //       .json({ message: "Error retrieving note", error: error.message });
+  //   }
+  // };
 
   addNote = async (req, res) => {
     try {
-      const { title, content } = req.body;
-      const newNote = { title, content };
-
-      const insertedNote = await this.db.insertAsync(newNote);
+      req.body._id = undefined; // Ensure that the ID is not set by the client
+      const insertedNote = await this.db.insertAsync(req.body);
       res.status(201).json(insertedNote);
     } catch (error) {
       res
@@ -90,14 +87,14 @@ export class NoteController {
   updateNote = async (req, res) => {
     try {
       const noteId = req.params.id;
-      const { title, content } = req.body;
+      const { _id, ...fields } = req.body;
 
-      const updatedNote = await this.db.updateAsync(
+      const { numAffected: updatedCount } = await this.db.updateAsync(
         { _id: noteId },
-        { $set: { title, content } }
+        { $set: fields }
       );
 
-      if (updatedNote === 0) {
+      if (updatedCount === 0) {
         res.status(404).json({ message: "Note not found" });
         return;
       }
@@ -112,24 +109,24 @@ export class NoteController {
     }
   };
 
-  deleteNote = async (req, res) => {
-    try {
-      const noteId = req.params.id;
+  // deleteNote = async (req, res) => {
+  //   try {
+  //     const noteId = req.params.id;
 
-      const deletedCount = await this.db.removeAsync({ _id: noteId });
+  //     const deletedCount = await this.db.removeAsync({ _id: noteId });
 
-      if (deletedCount === 0) {
-        res.status(404).json({ message: "Note not found" });
-        return;
-      }
+  //     if (deletedCount === 0) {
+  //       res.status(404).json({ message: "Note not found" });
+  //       return;
+  //     }
 
-      res.status(200).send();
-    } catch (error) {
-      res
-        .status(500)
-        .json({ message: "Error deleting note", error: error.message });
-    }
-  };
+  //     res.status(200).send();
+  //   } catch (error) {
+  //     res
+  //       .status(500)
+  //       .json({ message: "Error deleting note", error: error.message });
+  //   }
+  // };
 }
 
 const noteController = new NoteController();
