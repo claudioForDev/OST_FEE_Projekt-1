@@ -1,7 +1,137 @@
+import Datastore from "@seald-io/nedb";
+import path from "path";
+import { fileURLToPath } from "url";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
 export class NoteController {
-  indexHtml = async (req, res) => {
-    res.end("Hello from the note controller")
+  constructor() {
+    // Initialize NeDB database with file persistence
+    this.db = new Datastore({
+      filename: path.join(__dirname, "../data/notes.db"),
+      autoload: true,
+    });
+  }
+
+  seed = async () => {
+    const notes = [
+      { title: "AAA", content: "BBB", isCompleted: false },
+      { title: "BBB", content: "DDD", isCompleted: true },
+      { title: "CCC", content: "AAA", isCompleted: undefined },
+      { title: "DDD", content: "CCC", isCompleted: null },
+    ];
+
+    for (const note of notes) {
+      await this.db.insertAsync(note);
+    }
+  };
+
+  // TODO: Add Filter and Sorting.
+  getAllNotes = async (req, res) => {
+    try {
+      // Filter by request parameters if provided
+      let filter = {};
+      const isCompleted =
+        req.query.isCompleted === "true"
+          ? true
+          : req.query.isCompleted === "false"
+            ? false
+            : null;
+      if (isCompleted !== null) {
+        filter = { isCompleted: isCompleted };
+      }
+
+      // Sort by request query parameters if provided, otherwise default to sorting by title
+      const sortField = req.query.sortBy || "title";
+      const sortOrder = req.query.sortOrder === "desc" ? -1 : 1;
+
+      const notes = await this.db
+        .findAsync(filter)
+        .sort({ [sortField]: sortOrder });
+      res.json(notes);
+    } catch (error) {
+      res
+        .status(500)
+        .json({ message: "Error retrieving notes", error: error.message });
+    }
+  };
+
+  getNoteById = async (req, res) => {
+    try {
+      const noteId = req.params.id;
+      const note = await this.db.findOneAsync({ _id: noteId });
+      if (note) {
+        res.json(note);
+      } else {
+        res.status(404).json({ message: "Note not found" });
+      }
+    } catch (error) {
+      res
+        .status(500)
+        .json({ message: "Error retrieving note", error: error.message });
+    }
+  };
+
+  addNote = async (req, res) => {
+    try {
+      const { title, content } = req.body;
+      const newNote = { title, content };
+
+      const insertedNote = await this.db.insertAsync(newNote);
+      res.status(201).json(insertedNote);
+    } catch (error) {
+      res
+        .status(500)
+        .json({ message: "Error creating note", error: error.message });
+    }
+  };
+
+  updateNote = async (req, res) => {
+    try {
+      const noteId = req.params.id;
+      const { title, content } = req.body;
+
+      const updatedNote = await this.db.updateAsync(
+        { _id: noteId },
+        { $set: { title, content } }
+      );
+
+      if (updatedNote === 0) {
+        res.status(404).json({ message: "Note not found" });
+        return;
+      }
+
+      // Retrieve the updated note to return it
+      const note = await this.db.findOneAsync({ _id: noteId });
+      res.json(note);
+    } catch (error) {
+      res
+        .status(500)
+        .json({ message: "Error updating note", error: error.message });
+    }
+  };
+
+  deleteNote = async (req, res) => {
+    try {
+      const noteId = req.params.id;
+
+      const deletedCount = await this.db.removeAsync({ _id: noteId });
+
+      if (deletedCount === 0) {
+        res.status(404).json({ message: "Note not found" });
+        return;
+      }
+
+      res.status(200).send();
+    } catch (error) {
+      res
+        .status(500)
+        .json({ message: "Error deleting note", error: error.message });
+    }
   };
 }
 
-export const noteController = new NoteController();
+const noteController = new NoteController();
+// noteController.seed(); // Seed the database with initial notes
+export { noteController };

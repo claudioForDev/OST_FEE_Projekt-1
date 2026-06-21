@@ -2,9 +2,6 @@ import express from "express";
 
 import { indexRoutes } from "./routes/index-routes.js";
 import { noteRoutes } from "./routes/note-routes.js";
-
-// import { indexRoutes } from './routes/index-routes.js';
-// import {orderRoutes} from './routes/order-routes.js';
 import { CONFIG } from "./config.js";
 
 export const app = express();
