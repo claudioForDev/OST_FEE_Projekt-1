@@ -56,21 +56,21 @@ export class NoteController {
     }
   };
 
-  // getNoteById = async (req, res) => {
-  //   try {
-  //     const noteId = req.params.id;
-  //     const note = await this.db.findOneAsync({ _id: noteId });
-  //     if (note) {
-  //       res.json(note);
-  //     } else {
-  //       res.status(404).json({ message: "Note not found" });
-  //     }
-  //   } catch (error) {
-  //     res
-  //       .status(500)
-  //       .json({ message: "Error retrieving note", error: error.message });
-  //   }
-  // };
+  getNoteById = async (req, res) => {
+    try {
+      const noteId = req.params.id;
+      const note = await this.db.findOneAsync({ _id: noteId });
+      if (note) {
+        res.json(note);
+      } else {
+        res.status(404).json({ message: "Note not found" });
+      }
+    } catch (error) {
+      res
+        .status(500)
+        .json({ message: "Error retrieving note", error: error.message });
+    }
+  };
 
   addNote = async (req, res) => {
     try {
@@ -87,7 +87,7 @@ export class NoteController {
   updateNote = async (req, res) => {
     try {
       const noteId = req.params.id;
-      const { _id, ...fields } = req.body;
+      const fields = req.body;
 
       const { numAffected: updatedCount } = await this.db.updateAsync(
         { _id: noteId },
@@ -108,25 +108,6 @@ export class NoteController {
         .json({ message: "Error updating note", error: error.message });
     }
   };
-
-  // deleteNote = async (req, res) => {
-  //   try {
-  //     const noteId = req.params.id;
-
-  //     const deletedCount = await this.db.removeAsync({ _id: noteId });
-
-  //     if (deletedCount === 0) {
-  //       res.status(404).json({ message: "Note not found" });
-  //       return;
-  //     }
-
-  //     res.status(200).send();
-  //   } catch (error) {
-  //     res
-  //       .status(500)
-  //       .json({ message: "Error deleting note", error: error.message });
-  //   }
-  // };
 }
 
 const noteController = new NoteController();
