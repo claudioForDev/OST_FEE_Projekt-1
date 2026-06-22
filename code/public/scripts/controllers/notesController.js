@@ -261,7 +261,8 @@ function updateSortButtonsUI() {
     if (sortType === "importance") baseText = "Wichtigkeit";
 
     if (currentSort === sortType) {
-      const arrow = sortDirection === "asc" ? " ↑" : " ↓";
+      // Arrow direction: ↑ for newest first, ↓ for oldest first
+      const arrow = sortDirection === "desc" ? " ↑" : " ↓";
       button.textContent = baseText + arrow;
     } else {
       button.textContent = baseText;

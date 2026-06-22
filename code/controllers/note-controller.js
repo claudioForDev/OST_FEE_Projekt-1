@@ -42,12 +42,53 @@ export class NoteController {
       }
 
       // Sort by request query parameters if provided, otherwise default to sorting by title
-      const sortField = req.query.sortBy || "title";
+      let sortField = req.query.sortBy || "title";
       const sortOrder = req.query.sortOrder === "desc" ? -1 : 1;
 
-      const notes = await this.db
-        .findAsync(filter)
-        .sort({ [sortField]: sortOrder });
+      let notes = await this.db.findAsync(filter);
+
+      // DueDate: null-safe sorting (null values always at the end)
+      if (sortField === "dueDate") {
+        notes = notes.sort((a, b) => {
+          // Both have dueDate
+          if (a.dueDate && b.dueDate) {
+            return sortOrder * (new Date(a.dueDate) - new Date(b.dueDate));
+          }
+          // Only a has dueDate -> a comes first (before nulls)
+          if (a.dueDate) return -1;
+          // Only b has dueDate -> b comes first (before nulls)
+          if (b.dueDate) return 1;
+          // Both are null -> equal
+          return 0;
+        });
+      }
+      // Title: case-insensitive sorting
+      else if (sortField === "title") {
+        notes = notes.sort((a, b) => 
+          sortOrder * a.title.localeCompare(b.title, undefined, { sensitivity: 'base' })
+        );
+      }
+      // createdAt: numeric timestamp sorting
+      else if (sortField === "createdAt") {
+        notes = notes.sort((a, b) => {
+          const aVal = Number(a.createdAt) || 0;
+          const bVal = Number(b.createdAt) || 0;
+          return sortOrder * (aVal - bVal);
+        });
+      }
+      // importance: numeric sorting
+      else if (sortField === "importance") {
+        notes = notes.sort((a, b) => {
+          const aVal = Number(a.importance) || 0;
+          const bVal = Number(b.importance) || 0;
+          return sortOrder * (aVal - bVal);
+        });
+      }
+      // Other fields: standard NeDB sorting
+      else {
+        notes = notes.sort({ [sortField]: sortOrder });
+      }
+
       res.json(notes);
     } catch (error) {
       res
