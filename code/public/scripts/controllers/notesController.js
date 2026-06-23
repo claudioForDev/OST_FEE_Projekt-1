@@ -30,53 +30,14 @@ export async function initNotesController() {
 
 async function render() {
   const visibleNotes = await getNotes(
-    currentFilter === "completed" ? true : currentFilter === "open" ? false : undefined,
+    currentFilter === "completed"
+      ? true
+      : currentFilter === "open"
+        ? false
+        : undefined,
     currentSort,
     sortDirection
   );
-
-  // if (currentFilter === "open") {
-  //   visibleNotes = notes.filter((note) => !note.completed);
-  // }
-
-  // if (currentFilter === "completed") {
-  //   visibleNotes = notes.filter((note) => note.completed);
-  // }
-
-  // if (currentSort === "name") {
-  //   visibleNotes = [...visibleNotes].sort((a, b) =>
-  //     sortDirection === "desc"
-  //       ? a.title.localeCompare(b.title)
-  //       : b.title.localeCompare(a.title)
-  //   );
-  // }
-
-  // if (currentSort === "dueDate") {
-  //   visibleNotes = [...visibleNotes].sort((a, b) => {
-  //     if (!a.dueDate) return 1;
-  //     if (!b.dueDate) return -1;
-
-  //     return sortDirection === "desc"
-  //       ? new Date(a.dueDate) - new Date(b.dueDate)
-  //       : new Date(b.dueDate) - new Date(a.dueDate);
-  //   });
-  // }
-
-  // if (currentSort === "createdAt") {
-  //   visibleNotes = [...visibleNotes].sort((a, b) =>
-  //     sortDirection === "desc"
-  //       ? a.createdAt - b.createdAt
-  //       : b.createdAt - a.createdAt
-  //   );
-  // }
-
-  // if (currentSort === "importance") {
-  //   visibleNotes = [...visibleNotes].sort((a, b) =>
-  //     sortDirection === "desc"
-  //       ? a.importance - b.importance
-  //       : b.importance - a.importance
-  //   );
-  // }
 
   renderNotes(visibleNotes, {
     onToggleCompleted: handleToggleCompleted,
@@ -189,7 +150,6 @@ async function setupCreateNoteForm() {
     } else {
       // CREATE
       const newNote = new Note({
-        // id: Date.now(),
         title,
         content,
         importance,
@@ -197,7 +157,12 @@ async function setupCreateNoteForm() {
       });
 
       await addNote(newNote);
-      const filterCompleted = currentFilter === "completed" ? true : currentFilter === "open" ? false : undefined;
+      const filterCompleted =
+        currentFilter === "completed"
+          ? true
+          : currentFilter === "open"
+            ? false
+            : undefined;
       notes = await getNotes(filterCompleted, currentSort, sortDirection);
     }
 
@@ -216,7 +181,6 @@ function setupFilterControls() {
 
   filterButtons.forEach((button) => {
     button.addEventListener("click", async () => {
-      // const newFilter = button.dataset.filter;
       currentFilter = button.dataset.filter;
       await render();
     });
@@ -261,7 +225,6 @@ function updateSortButtonsUI() {
     if (sortType === "importance") baseText = "Wichtigkeit";
 
     if (currentSort === sortType) {
-      // Arrow direction: ↑ for newest first, ↓ for oldest first
       const arrow = sortDirection === "desc" ? " ↑" : " ↓";
       button.textContent = baseText + arrow;
     } else {

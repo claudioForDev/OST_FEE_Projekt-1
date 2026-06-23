@@ -3,8 +3,6 @@ import dotenv from "dotenv";
 // load config-file
 dotenv.config({ path: `code/.env` });
 
-console.log(process.env.HOSTNAME, process.env.PORT);
-
 // load app with current config
 const app = (await import("./app.js")).app;
 

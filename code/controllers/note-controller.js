@@ -14,25 +14,12 @@ export class NoteController {
     });
   }
 
-  // seed = async () => {
-  //   const notes = [
-  //     { title: "AAA", content: "BBB", isCompleted: false },
-  //     { title: "BBB", content: "DDD", isCompleted: true },
-  //     { title: "CCC", content: "AAA", isCompleted: undefined },
-  //     { title: "DDD", content: "CCC", isCompleted: null },
-  //   ];
-
-  //   for (const note of notes) {
-  //     await this.db.insertAsync(note);
-  //   }
-  // };
-
-  // TODO: Add Filter and Sorting.
   getAllNotes = async (req, res) => {
     try {
       // Filter by request parameters if provided
       let filter = {};
-      const isCompleted = req.query.isCompleted === "true"
+      const isCompleted =
+        req.query.isCompleted === "true"
           ? true
           : req.query.isCompleted === "false"
             ? false
@@ -64,8 +51,10 @@ export class NoteController {
       }
       // Title: case-insensitive sorting
       else if (sortField === "title") {
-        notes = notes.sort((a, b) => 
-          sortOrder * a.title.localeCompare(b.title, undefined, { sensitivity: 'base' })
+        notes = notes.sort(
+          (a, b) =>
+            sortOrder *
+            a.title.localeCompare(b.title, undefined, { sensitivity: "base" })
         );
       }
       // createdAt: numeric timestamp sorting
@@ -115,7 +104,7 @@ export class NoteController {
 
   addNote = async (req, res) => {
     try {
-      req.body._id = undefined; // Ensure that the ID is not set by the client
+      req.body._id = undefined;
       const insertedNote = await this.db.insertAsync(req.body);
       res.status(201).json(insertedNote);
     } catch (error) {
@@ -152,5 +141,4 @@ export class NoteController {
 }
 
 const noteController = new NoteController();
-// noteController.seed(); // Seed the database with initial notes
 export { noteController };
