@@ -52,7 +52,7 @@ function createNoteElement(note, onToggleCompleted, onEditNote) {
   editButton.textContent = "Bearbeiten";
 
   editButton.addEventListener("click", () => {
-    onEditNote(note.id);
+    onEditNote(note._id);
   });
 
   const toggleButton = document.createElement("button");
@@ -60,7 +60,7 @@ function createNoteElement(note, onToggleCompleted, onEditNote) {
   toggleButton.textContent = note.completed ? "Wieder öffnen" : "Abschliessen";
 
   toggleButton.addEventListener("click", () => {
-    onToggleCompleted(note.id);
+    onToggleCompleted(note._id);
   });
 
   footer.appendChild(editButton);

@@ -8,7 +8,7 @@ let notes = [];
 let currentFilter = "all";
 let currentSort = "dueDate";
 let noteBeingEdited = null;
-let sortDirection = "desc";
+let sortDirection = "asc"; // Default: earliest due date first
 
 /* Public API */
 
@@ -87,7 +87,7 @@ async function render() {
 /* Event Handlers */
 
 async function handleToggleCompleted(noteId) {
-  const note = notes.find((n) => n.id === noteId);
+  const note = notes.find((n) => n._id === noteId);
 
   if (!note) {
     return;
@@ -99,7 +99,7 @@ async function handleToggleCompleted(noteId) {
 }
 
 function handleEditNote(noteId) {
-  const note = notes.find((n) => n.id === noteId);
+  const note = notes.find((n) => n._id === noteId);
 
   if (!note) {
     return;
@@ -255,7 +255,7 @@ function updateSortButtonsUI() {
 
     let baseText = "";
 
-    if (sortType === "title") baseText = "Title";
+    if (sortType === "title") baseText = "Titel";
     if (sortType === "dueDate") baseText = "Fälligkeitsdatum";
     if (sortType === "createdAt") baseText = "Erstellungsdatum";
     if (sortType === "importance") baseText = "Wichtigkeit";

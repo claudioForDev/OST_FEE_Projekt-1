@@ -1,6 +1,6 @@
 export class Note {
   constructor({
-    id,
+    _id,
     title,
     content,
     completed = false,
@@ -8,7 +8,7 @@ export class Note {
     importance = 3,
     dueDate = null,
   }) {
-    this.id = id;
+    this._id = _id;
     this.title = title;
     this.content = content;
     this.completed = completed;
