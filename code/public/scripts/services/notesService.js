@@ -41,16 +41,12 @@ async function http(method, path, data = null) {
   };
 
   try {
-    console.log(`SEND: ${method} / ${url} data: ${JSON.stringify(data)}`);
     const response = await fetch(url, options);
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
     }
 
     const jsonResponse = await response.json();
-    console.log(
-      `RECEIVE: ${method} / ${url} data: ${JSON.stringify(jsonResponse)}...`
-    );
     return jsonResponse;
   } catch (error) {
     console.error(`Error during HTTP request to ${url}:`, error);
