@@ -304,6 +304,7 @@ p {
   line-height: var(--line-height-base);
 
   padding: var(--space-sm);
+  margin-bottom: var(--space-md);
   border-radius: var(--radius-sm);
   border: var(--border-default);
 
@@ -313,6 +314,10 @@ p {
   transition:
     border-color var(--transition-fast),
     box-shadow var(--transition-fast);
+}
+
+.form-input--last {
+  margin-bottom: var(--space-xl);
 }
 
 /* Placeholder */
