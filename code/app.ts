@@ -32,8 +32,6 @@ app.get("/", (_req: Request, res: Response): void => {
   res.sendFile("/index.html", { root: CONFIG.public });
 });
 
-// Error handling middleware
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 app.use(
   (err: Error, _req: Request, _res: Response, next: NextFunction): void => {
     console.error(err.stack);

@@ -21,8 +21,7 @@ app.use("/notes", noteRoutes);
 app.get("/", (_req, res) => {
     res.sendFile("/index.html", { root: CONFIG.public });
 });
-// Error handling middleware
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
+
 app.use((err, _req, _res, next) => {
     console.error(err.stack);
     next(err);
